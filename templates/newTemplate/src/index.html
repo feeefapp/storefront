@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Basic HTML/Tailwind starter</title>
+    <meta name="description" content="Basic HTML/Tailwind starter" />
+    <meta name="author" content="Daily Dev Tips" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+      img[src="https://placeholder.pics/svg/500x250/DEDEDE/555555/place%20holder"],
+      img[src="/placeholder-user.jpg"] {
+        filter: sepia(0.3) hue-rotate(-60deg) saturate(0.5) opacity(0.8);
+      }
+    </style>
+    <style>
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Inter", sans-serif;
+        --font-sans-serif: "Inter";
+      }
+    </style>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        --font-sans-serif: "Inter";
+      }
+    </style>
+    <div class="bg-gray-100 p-4">
+      <header class="flex items-center justify-between p-4 bg-white shadow-md">
+        <div class="flex items-center space-x-2">
+          <img
+            src="https://placeholder.pics/svg/500x250/DEDEDE/555555/place%20holder"
+            alt="eBay Logo"
+            width="100"
+            height="40"
+            style="aspect-ratio: 100 / 40; object-fit: cover"
+          />
+          <button
+            type="button"
+            role="combobox"
+            aria-controls="radix-:r1h:"
+            aria-expanded="false"
+            aria-autocomplete="none"
+            dir="ltr"
+            data-state="closed"
+            data-placeholder=""
+            class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-muted-foreground"
+          >
+            <span style="pointer-events: none">All Categories</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-chevron-down h-4 w-4 opacity-50"
+              aria-hidden="true"
+            >
+              <path d="m6 9 6 6 6-6"></path>
+            </svg>
+          </button>
+          <input
+            class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-64"
+            placeholder="Search for items..."
+            type="search"
+          />
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 ml-2"
+          >
+            Search
+          </button>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+          >
+            My eBay
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+          >
+            Sell
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+          >
+            Help &amp; Contact
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+          >
+            Sign In
+          </button>
+        </div>
+      </header>
+      <main class="max-w-5xl mx-auto p-4 bg-white shadow-md rounded-lg">
+        <nav class="text-sm text-blue-600 mb-4">
+          <a href="#" class="hover:underline"> Back to previous page </a>{" "}
+          &gt;
+          <a href="#" class="hover:underline">
+            Listed in category: Cell Phones &amp; Accessories </a
+          >{" "} &gt;
+          <a href="#" class="hover:underline">
+            Cell Phones &amp; Smartphones
+          </a>
+        </nav>
+        <div class="flex space-x-4">
+          <div class="w-1/2">
+            <img
+              src="https://placeholder.pics/svg/500x250/DEDEDE/555555/place%20holder"
+              alt="Apple iPhone 13"
+              class="w-full h-auto"
+              width="400"
+              height="400"
+              style="aspect-ratio: 400 / 400; object-fit: cover"
+            />
+            <div class="flex items-center justify-between space-x-2 mt-2">
+              <img
+                  src="./left-arrow.svg"
+                  alt="Thumbnail 1"
+                  class="w-10 h-10"
+                  width="80"
+                  height="80"
+                  style="aspect-ratio: 80 / 80; object-fit: cover"
+                />
+              <div class="flex justify-center gap-5">
+                
+                <img
+                  src="https://placeholder.pics/svg/500x250/DEDEDE/555555/place%20holder"
+                  alt="Thumbnail 1"
+                  class="w-16 h-16"
+                  width="80"
+                  height="80"
+                  style="aspect-ratio: 80 / 80; object-fit: cover"
+                />
+                <img
+                  src="https://placeholder.pics/svg/500x250/DEDEDE/555555/place%20holder"
+                  alt="Thumbnail 2"
+                  class="w-16 h-16"
+                  width="80"
+                  height="80"
+                  style="aspect-ratio: 80 / 80; object-fit: cover"
+                />
+                <img
+                  src="https://placeholder.pics/svg/500x250/DEDEDE/555555/place%20holder"
+                  alt="Thumbnail 3"
+                  class="w-16 h-16"
+                  width="80"
+                  height="80"
+                  style="aspect-ratio: 80 / 80; object-fit: cover"
+                />
+              </div>
+              <img
+                  src="./right-arrow.svg"
+                  alt="Thumbnail 1"
+                  class="w-10 h-10"
+                  width="80"
+                  height="80"
+                  style="aspect-ratio: 80 / 80; object-fit: cover"
+                />
+            </div>
+          </div>
+          <div class="w-1/2">
+            <h1 class="text-2xl font-bold">Apple iPhone 13 (128GB)</h1>
+            <p class="text-sm text-gray-500">
+              Free 2 Days Shipping | 1 Year Warranty
+            </p>
+            <div class="flex items-center space-x-1 mt-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-4 h-4 text-yellow-500"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                ></polygon>
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-4 h-4 text-yellow-500"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                ></polygon>
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-4 h-4 text-yellow-500"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                ></polygon>
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-4 h-4 text-yellow-500"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                ></polygon>
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-4 h-4 text-yellow-500"
+              >
+                <path d="M12 17.8 5.8 21 7 14.1 2 9.3l7-1L12 2"></path>
+              </svg>
+              <p class="text-sm text-gray-500">(4.5 from 392 Reviews)</p>
+            </div>
+            <p class="text-3xl font-bold mt-2">$580</p>
+            <ul class="space-y-1 mt-2">
+              <li class="flex items-center space-x-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-4 h-4 text-green-500"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+                <span>Free Return</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-4 h-4 text-green-500"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+                <span>Chat with us 24 hours</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-4 h-4 text-green-500"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+                <span>Comes with a Package</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-4 h-4 text-green-500"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+                <span>Comes with a Package</span>
+              </li>
+            </ul>
+            <div class="flex items-center space-x-2 mt-4">
+              <span
+                class="relative flex h-5 w-5 shrink-0 overflow-hidden rounded-full"
+              >
+                <img
+                  class="aspect-square h-full w-full"
+                  alt="User 1"
+                  src="/placeholder-user.jpg"
+                />
+              </span>
+              <span
+                class="relative flex h-5 w-5 shrink-0 overflow-hidden rounded-full"
+              >
+                <img
+                  class="aspect-square h-full w-full"
+                  alt="User 2"
+                  src="/placeholder-user.jpg"
+                />
+              </span>
+              <span
+                class="relative flex h-5 w-5 shrink-0 overflow-hidden rounded-full"
+              >
+                <img
+                  class="aspect-square h-full w-full"
+                  alt="User 3"
+                  src="/placeholder-user.jpg"
+                />
+              </span>
+              <span
+                class="relative flex h-5 w-5 shrink-0 overflow-hidden rounded-full"
+              >
+                <img
+                  class="aspect-square h-full w-full"
+                  alt="User 4"
+                  src="/placeholder-user.jpg"
+                />
+              </span>
+              <span
+                class="relative flex h-5 w-5 shrink-0 overflow-hidden rounded-full"
+              >
+                <img
+                  class="aspect-square h-full w-full"
+                  alt="User 5"
+                  src="/placeholder-user.jpg"
+                />
+              </span>
+              <p class="text-sm text-blue-600">
+                1,241 Sold in the last 24 hours
+              </p>
+            </div>
+            <div class="flex space-x-4 mt-4">
+              <button class="bg-blue-600 text-sm text-white rounded px-12">
+                Buy it now
+              </button>
+              <button
+                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+              >
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8">
+          <div dir="ltr" data-orientation="horizontal">
+            <div
+              role="tablist"
+              aria-orientation="horizontal"
+              class="inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground"
+              tabindex="0"
+              data-orientation="horizontal"
+              style="outline: none"
+            >
+              <button
+                type="button"
+                role="tab"
+                aria-selected="true"
+                aria-controls="radix-:r1k:-content-undefined"
+                data-state="active"
+                id="radix-:r1k:-trigger-undefined"
+                class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow"
+                tabindex="-1"
+                data-orientation="horizontal"
+                data-radix-collection-item=""
+              >
+                About
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected="true"
+                aria-controls="radix-:r1k:-content-undefined"
+                data-state="active"
+                id="radix-:r1k:-trigger-undefined"
+                class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow"
+                tabindex="-1"
+                data-orientation="horizontal"
+                data-radix-collection-item=""
+              >
+                Shipping
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected="true"
+                aria-controls="radix-:r1k:-content-undefined"
+                data-state="active"
+                id="radix-:r1k:-trigger-undefined"
+                class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow"
+                tabindex="-1"
+                data-orientation="horizontal"
+                data-radix-collection-item=""
+              >
+                Returns
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

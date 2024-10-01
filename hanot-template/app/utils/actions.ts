@@ -8,4 +8,21 @@ export const ff = new FeeeF({
   // baseURL: "http://localhost:3333/api/v1",
 });
 
-  
+export const fetchStore = async (subdomain: string | null) => {
+  if (subdomain) {
+    return await ff.stores.find({
+      id: subdomain,
+      by: "slug",
+    });
+  }
+
+  return null;
+};
+
+export const fetchProducts = async (storeId: string | null) => {
+  return await ff.products.list({
+    params: {
+      store_id: storeId,
+    },
+  });
+};

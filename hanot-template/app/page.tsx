@@ -1,15 +1,13 @@
 "use server";
 import { fetchProducts, fetchStore } from "./utils/actions";
 import { ProductEntity, StoreEntity } from "feeef";
-import { headers } from "next/headers";
 
 import ProductSection from "./components/productsSection";
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
 
 export default async function Home() {
-  const header = headers();
-  const subdomain = header.get("x-subdomain");
-
-  const store: StoreEntity | null = await fetchStore(subdomain);
+  const store: StoreEntity | null = await fetchStore();
 
   if (!store) {
     return (
@@ -19,12 +17,36 @@ export default async function Home() {
     );
   }
 
-  const { data: products }: { data: ProductEntity[] } = await fetchProducts(store.id!);
-  
+  const { data: products }: { data: ProductEntity[] } = await fetchProducts(
+    store.id!
+  );
 
   return (
-    <div className="">
-      <ProductSection products={products} categories={store.categories} />
-    </div>
+    <>
+      <Navbar store={store} />
+
+      <div className="flex flex-col min-h-screen px-0 md:px-14">
+        <div className="min-h-svh">
+          {/* Navbar */}
+          <div className="text-center my-8">
+            {/* Main heading */}
+            <h1 className="text-3xl font-bold text-black mb-2 relative inline-block">
+              <span className="block">{store.description}</span>
+              {/* Underline */}
+              <span className="block w-full h-1 bg-blue-200 absolute bottom-0 left-0"></span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className="text-gray-600 text-lg mt-2">
+              تصفح قائمة المنتجات الأكثر رواجا
+            </p>
+          </div>
+          <hr className="my-4 " />
+
+          <ProductSection products={products} categories={store.categories} />
+        </div>
+      </div>
+      <Footer store={store} />
+    </>
   );
 }

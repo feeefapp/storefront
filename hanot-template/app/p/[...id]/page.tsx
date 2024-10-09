@@ -1,5 +1,6 @@
 import OrderForm from "@/app/components/form";
 import ProductNavbar from "@/app/components/productNavbar";
+import ProductGallery from "@/app/components/productsGallery";
 import { fetchProduct, fetchStore } from "@/app/utils/actions";
 import { StoreEntity } from "feeef";
 import React from "react";
@@ -15,7 +16,9 @@ async function ProductPage({ params: { id } }: { params: { id: string } }) {
     <div dir="rtl">
       <ProductNavbar store={store} product={product} />
       <div className="grid grid-cols-1 md:grid-cols-2 ">
-        <div>Gallery goes Here</div>
+        <div>
+          <ProductGallery  productImages={product.media} />
+        </div>
         <OrderForm store={store} product={product} />
       </div>
     </div>

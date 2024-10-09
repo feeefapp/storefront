@@ -1,7 +1,8 @@
 import { StoreEntity } from "feeef";
 
-import { PhoneIcon } from "@heroicons/react/outline";
+import { GiftIcon, PhoneIcon } from "@heroicons/react/outline";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer({ store }: { store: StoreEntity }) {
   return (
@@ -71,26 +72,26 @@ export default function Footer({ store }: { store: StoreEntity }) {
       <div className="container mx-auto text-center mt-6">
         <p className="text-gray-500 mb-4">تابعنا على</p>
         <div className="flex justify-center space-x-4 text-gray-600">
-          <a href="#">
-            <i className="fab fa-facebook text-xl"></i>
-          </a>
-          <a href="#">
-            <i className="fab fa-instagram text-xl"></i>
-          </a>
-          <a href="#">
+          <Link href="#">
+            <GiftIcon className="text-xl" />
+          </Link>
+          <Link href="#">
+            
+          </Link>
+          <Link href="#">
             <i className="fab fa-tiktok text-xl"></i>
-          </a>
+          </Link>
         </div>
       </div>
 
       {/* Call button */}
       <div className="fixed bottom-6 left-10">
-        <a
+        <Link
           href="tel:064343422560"
           className="bg-blue-500 text-white p-4 py-6 w-8 h-8 rounded-full shadow-lg hover:bg-blue-600"
         >
           <PhoneIcon className="  inline-block animate-pulse" />
-        </a>
+        </Link>
       </div>
     </footer>
   );

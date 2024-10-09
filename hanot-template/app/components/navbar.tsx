@@ -11,13 +11,13 @@ import Image from "next/image";
 const Navbar = ({ store }: { store: StoreEntity }) => {
   // const {addToCart ,cartItems} = useContext(CartContext);
 
-  const { banner } = store;
+ 
 
   return (
     <header dir="rtl">
       {/* Black Banner */}
       <div className="bg-black text-white text-center py-2 text-sm">
-        {banner?.title}
+        {store?.description}
         {/* <span className="text-blue-600">التوصيل مجاني للطلبات فوق 1000 د.ج</span> */}
       </div>
 

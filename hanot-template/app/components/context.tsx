@@ -31,14 +31,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [cartItems, setCartItems] = useState<LocalOrderItem[]>(() => {
-    const cartString = localStorage.getItem("cart");
-    return cartString ? JSON.parse(cartString) : [];
+    // const cartString = localStorage.getItem("cart");
+    return [];
   });
 
   const addToCart = (item: LocalOrderItem) => {
     setCartItems((prevItems) => {
       const updatedItems = [...prevItems, item];
-      localStorage.setItem("cart", JSON.stringify(updatedItems));
+      //   localStorage.setItem("cart", JSON.stringify(updatedItems));
       return updatedItems;
     });
   };
@@ -46,7 +46,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     const array = [...cartItems];
     array.splice(index, 1);
     setCartItems(array);
-    localStorage.setItem("cart", JSON.stringify(array));
+    // localStorage.setItem("cart", JSON.stringify(array));
   };
 
   return (

@@ -31,14 +31,14 @@ export default async function Home() {
           <div className="text-center my-8">
             {/* Main heading */}
             <h1 className="text-3xl font-bold text-black mb-2 relative inline-block">
-              <span className="block">{store.description}</span>
+              <span className="block">{store.title}</span>
               {/* Underline */}
               <span className="block w-full h-1 bg-blue-200 absolute bottom-0 left-0"></span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-gray-600 text-lg mt-2">
-              تصفح قائمة المنتجات الأكثر رواجا
+            <p className="text-gray-600 text-center text-lg mt-2 w-full md:w-3/4 mx-auto">
+              {store.description}
             </p>
           </div>
           <hr className="my-4 " />

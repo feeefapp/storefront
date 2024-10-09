@@ -13,8 +13,10 @@ const OrderForm = ({
   const [phone, setPhone] = useState("");
   const [city, setCity] = useState("Oum El Bouaghi");
   const [quantity, setQuantity] = useState(1);
-  console.log(store, product);
-
+//   console.log(product);
+ const {variant} = product;
+ console.log(variant);
+ console.log(store)
   const handleQuantityChange = (change: number) => {
     setQuantity((prevQuantity) => Math.max(1, prevQuantity + change));
   };

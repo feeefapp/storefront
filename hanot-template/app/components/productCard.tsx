@@ -31,9 +31,9 @@ function ProductCard({ product }: Props) {
           <p className="text-gray-600 text-sm">{product.category?.name}</p>
 
           {/* Product Title */}
-          <h3 className="text-xl font-bold text-gray-900 mt-2">
+          <h6 className="text-xl font-bold text-gray-900 mt-2">
             {product.name}
-          </h3>
+          </h6>
 
           {/* Rating */}
           <div className="flex items-center mt-2 mb-4">

@@ -17,9 +17,15 @@ export default async function Home() {
     );
   }
 
-  const { data: products }: { data: ProductEntity[] } = await fetchProducts(
-    store.id!
-  );
+  const productsResponse = await fetchProducts(store.id!);
+  if (!productsResponse) {
+    return (
+      <div className="flex items-center justify-center h-screen text-2xl font-bold">
+        Products not found
+      </div>
+    );
+  }
+  const { data: products }: { data: ProductEntity[] } = productsResponse;
 
   return (
     <>

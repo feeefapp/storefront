@@ -1,42 +1,63 @@
-"use server ";
-import { FeeeF } from "feeef";
-import { headers } from "next/headers";
+"use server";
 
-// We are creating a new instance of the FeeeF class. Think of it like a special tool that helps us talk to a website's API.
-export const ff = new FeeeF({
-  apiKey: "c43Yfd3bgolijJU3b3bx095vlfTrvnL94baZrd1", // This is like a secret password that lets us use the API.
-  baseURL: "https://feeef.app/api/v1", // This is the address of the API we want to talk to.
-  cache: 10, // This means we want to remember the API responses for 10 milliseconds.
-  // baseURL: "http://localhost:3333/api/v1", // This is another address we could use if we were testing locally.
+import { FeeeF, OrderEntity } from "feeef";
+import { headers } from "next/headers";
+import { cache } from "react";
+
+const ff = new FeeeF({
+  apiKey:
+    process.env.FEEEF_API_KEY || "c43Yfd3bgolijJU3b3bx095vlfTrvnL94baZrd1",
+  baseURL: "https://feeef.app/api/v1",
+  cache: 10,
 });
 
-// This function fetches the store.
-export const fetchStore = async () => {
-  const header = headers(); // We get the headers from the request.
-  const subdomain = header.get("x-subdomain"); // We look for a special piece of information called "x-subdomain".
-  if (subdomain) {
-    // If we find the subdomain...
-    return await ff.stores.find({
-      id: subdomain, // We use the subdomain to find the store.
-      by: "slug", // We are looking for the store by its "slug" (a unique name).
-    });
+export const fetchStore = cache(async () => {
+  try {
+    const header = headers();
+    const subdomain = header.get("x-subdomain");
+    if (subdomain) {
+      return await ff.stores.find({
+        id: subdomain,
+        by: "slug",
+      });
+    }
+    return null;
+  } catch (error) {
+    console.error("Error fetching store:", error);
+    return null;
   }
+});
 
-  return null; // If we don't find the subdomain, we return null (nothing).
-};
+export const fetchProducts = cache(async (storeId: string | null) => {
+  try {
+    if (!storeId) return null;
+    return await ff.products.list({
+      params: {
+        store_id: storeId,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return null;
+  }
+});
 
-// This function fetches a list of products for a specific store.
-export const fetchProducts = async (storeId: string | null) => {
-  return await ff.products.list({
-    params: {
-      store_id: storeId, // We use the store's ID to get the products.
-    },
-  });
-};
+export const fetchProduct = cache(async (productId: string) => {
+  try {
+    return await ff.products.find({
+      id: productId,
+    });
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return null;
+  }
+});
 
-// This function fetches information about a specific product.
-export const fetchProduct = async (productId: string) => {
-  return await ff.products.find({
-    id: productId, // We use the product's ID to find it.
-  });
+export const sendOrder = async (data: OrderEntity) => {
+  try {
+    return await ff.orders.create({ data });
+  } catch (error) {
+    console.error("Error sending order:", error);
+    return null;
+  }
 };

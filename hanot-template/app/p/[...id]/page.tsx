@@ -1,6 +1,6 @@
-import OrderForm from "@/app/components/form";
+// import OrderForm from "@/app/components/form";
 import ProductNavbar from "@/app/components/productNavbar";
-import ProductGallery from "@/app/components/productsGallery";
+// import ProductGallery from "@/app/components/productsGallery";
 import { fetchProduct, fetchStore } from "@/app/utils/actions";
 import { StoreEntity } from "feeef";
 import React from "react";
@@ -8,8 +8,11 @@ import React from "react";
 async function ProductPage({ params: { id } }: { params: { id: string } }) {
   const product = await fetchProduct(id);
   const store: StoreEntity | null = await fetchStore();
+  const OrderForm = React.lazy(() => import("@/app/components/form"));
+  const ProductGallery = (await import("@/app/components/productsGallery"))
+    .default;
 
-  if (!store || product.storeId !== store.id) {
+  if (!store || product?.storeId !== store.id) {
     return <div>Prduct not found</div>;
   }
   return (
@@ -17,7 +20,7 @@ async function ProductPage({ params: { id } }: { params: { id: string } }) {
       <ProductNavbar store={store} product={product} />
       <div className="grid grid-cols-1 md:grid-cols-2 ">
         <div>
-          <ProductGallery  productImages={product.media} />
+          <ProductGallery productImages={product.media} />
         </div>
         <OrderForm store={store} product={product} />
       </div>

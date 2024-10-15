@@ -1,74 +1,55 @@
 "use client";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
-import { useState } from "react";
-import { Swiper as SwiperClass } from "swiper/types";
+import { useState, useId } from "react";
 import Image from "next/image";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/thumbs";
 
 interface ProductGalleryProps {
   productImages: string[];
 }
 
 const ProductGallery = ({ productImages }: ProductGalleryProps) => {
-  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
+  const [index, setIndex] = useState(0);
+  const id = useId();
+
+  // Handle click to change image
+  const handleClick = (i: number) => {
+    setIndex(i);
+  };
 
   return (
-    <div className="h-[600px] my-9 px-6 border border-primary overflow-hidden bg-slate-100 shadow-2xl py-2">
-      {/* Main Product Slider */}
-      <Swiper
-        loop={true}
-        spaceBetween={10}
-        navigation={true}
-        thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper2 select-none mb-2"
-      >
-        {productImages.map((image, index) => (
-          <SwiperSlide key={index}>
-            {/* Main Image */}
-            <Image
-              src={image}
-              alt={`Product Image ${index + 1}`}
-              width={599}
-              height={599}
-              className="object-contain w-full h-auto"
-              loading="lazy" // Lazy load images
-              
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+    <div className="flex flex-col items-center max-w-3xl mx-auto px-4 overflow-hidden">
+      {/* Main Image */}
+      <div className="h-[400px] sm:h-[500px] relative aspect-square w-full mb-4">
+        <Image
+          src={productImages[index]}
+          alt={`Product Image ${index + 1}`}
+          fill
+          sizes="50vw"
+          className="object-contain rounded-lg shadow-lg"
+        />
+      </div>
 
-      {/* Thumbnail Slider */}
-      <Swiper
-        onSwiper={setThumbsSwiper}
-        loop={true}
-        spaceBetween={10}
-        slidesPerView={4}
-        freeMode={true}
-        watchSlidesProgress={true}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper"
+      {/* Thumbnails */}
+      <div
+        className="w-full flex gap-4 mt-4 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory"
+        style={{ WebkitOverflowScrolling: "touch" }} // Enable smooth scrolling on iOS
       >
-        {productImages.map((image, index) => (
-          <SwiperSlide key={index}>
-            {/* Thumbnail Image */}
+        {productImages.map((item, i) => (
+          <div
+            className={`relative w-20 h-20 sm:w-24 sm:h-24 aspect-square cursor-pointer rounded-lg snap-center 
+            ${index === i ? "ring-4 ring-blue-500" : ""}`} // Highlight active thumbnail
+            key={`${id}-${i}`}
+            onClick={() => handleClick(i)}
+          >
             <Image
-              src={image}
-              alt={`Thumbnail Image ${index + 1}`}
-              width={50}
-              height={50}
-              className="object-cover w-full h-auto cursor-pointer"
-              loading="lazy" // Lazy load thumbnails too
+              src={item}
+              alt={`Thumbnail Image ${i + 1}`}
+              fill
+              sizes="10vw"
+              className="object-cover rounded-md hover:opacity-75 transition-opacity duration-300"
             />
-          </SwiperSlide>
+          </div>
         ))}
-      </Swiper>
+      </div>
     </div>
   );
 };

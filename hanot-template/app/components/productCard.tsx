@@ -10,7 +10,7 @@ type Props = {
 
 function ProductCard({ product }: Props) {
   return (
-    <Link href={`/p/${product.id}`}>
+    <Link href={`/p/${product.id}`} rel="preload"  type="font/woff2">
       <div
         dir="rtl"
         className="bg-white shadow-md w-60 rounded-lg overflow-hidden max-w-xs mx-auto"

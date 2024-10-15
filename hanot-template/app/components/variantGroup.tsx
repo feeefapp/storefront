@@ -1,4 +1,5 @@
 import { ProductVariant, ProductVariantOption } from "feeef";
+import Image from "next/image";
 export const dartColorToCss = (color: number): string => {
   let colorAsString = color.toString(16);
   if (color > 0xffffff) {
@@ -8,7 +9,6 @@ export const dartColorToCss = (color: number): string => {
   const colorAsHex = "#" + colorAsString;
   return colorAsHex;
 };
-  
 
 /**
  * Renders a variant button based on the variant type.
@@ -136,7 +136,13 @@ function ImageVariantButton({
         "cursor-pointer flex justify-center items-center border-transparent overflow-hidden shadow-xl border-2 w-14 h-14 rounded-[15px]  bg-opacity-5  focus:bg-opacity-100"
       }
     >
-      <img src={variant.value} className="w-full h-full object-cover" />
+      <Image
+        width={20}
+        height={20}
+        alt="variant image"
+        src={variant.value}
+        className="w-full h-full object-cover"
+      />
     </div>
   );
 

@@ -11,6 +11,7 @@ import Loader from "@/app/components/loder";
 const OrderForm = dynamic(() => import("@/app/components/form"), {
   suspense: true,
   ssr: true,
+  loading: () => <Loader />,
 });
 
 const ProductGallery = dynamic(
@@ -18,6 +19,7 @@ const ProductGallery = dynamic(
   {
     suspense: true,
     ssr: true,
+    loading: () => <Loader />,
   }
 );
 
@@ -40,7 +42,7 @@ async function ProductPage({ params: { id } }: { params: { id: string } }) {
         {/* Main Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 max-w-screen-xl mx-auto ">
           {/* Left: Product Gallery */}
-          <div className="md:sticky top-0 h-screen overflow-y-auto border-r border-gray-200 pr-4">
+          <div className="md:sticky top-0 md:h-screen overflow-y-auto border-r border-gray-200 pr-4">
             <Suspense fallback={<Loader />}>
               <ProductGallery productImages={product.media} />
             </Suspense>
@@ -55,7 +57,7 @@ async function ProductPage({ params: { id } }: { params: { id: string } }) {
 
             {/* Product Description */}
             {product.body && (
-              <div className="prose prose-lg max-w-none text-gray-700 bg-white shadow-lg ">
+              <div className="prose prose-lg max-w-none text-xl px-6 ">
                 <Markdown
                   components={{
                     img: ({ src, alt }) => (

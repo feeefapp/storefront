@@ -1,20 +1,10 @@
-import localFont from "next/font/local";
+import { Alexandria } from "next/font/google";
 import "./globals.css";
 
 import { fetchStore } from "./utils/actions";
 import { Metadata } from "next";
 import { CartProvider } from "./components/context";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+// import alexendria from "next/font/alexendria";
 export async function generateMetadata(): Promise<Metadata> {
   const store = await fetchStore();
 
@@ -39,6 +29,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+const alexandria = Alexandria({ subsets: ["arabic"] });
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -46,9 +38,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="ar">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${alexandria.className} `}>
         <CartProvider>{children}</CartProvider>
       </body>
     </html>

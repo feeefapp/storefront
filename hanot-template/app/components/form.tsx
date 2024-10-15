@@ -344,7 +344,7 @@ const OrderForm = ({
         <div className="text-center">
           <button
             type="submit"
-            className="bg-primary text-foreground w-full py-2 rounded-lg my-2"
+            className="bg-primary text-white w-full py-2 rounded-lg my-2"
           >
             انقر هنا لتأكيد الطلب 👆
           </button>

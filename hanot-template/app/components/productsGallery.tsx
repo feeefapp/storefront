@@ -25,6 +25,7 @@ const ProductGallery = ({ productImages }: ProductGalleryProps) => {
           fill
           sizes="50vw"
           className="object-contain rounded-lg  transition-transform duration-300 hover:scale-105" // Zoom effect on hover
+          priority={true} // Load main image first
         />
       </div>
 
@@ -37,8 +38,8 @@ const ProductGallery = ({ productImages }: ProductGalleryProps) => {
           <div
             className={`relative w-20 h-20 sm:w-24 sm:h-24 aspect-square cursor-pointer rounded-lg snap-center 
             ${
-              index === i ? "ring-4 ring-blue-500" : "opacity-75"
-            } hover:opacity-100 transition-opacity duration-300`} // Improved thumbnail highlight
+              index === i ? "ring-4 ring-primary" : "opacity-75"
+            } hover:opacity-100  transition-all duration-300`} // Improved thumbnail highlight
             key={`${id}-${i}`}
             onClick={() => handleClick(i)}
             aria-label={`تغيير إلى صورة المنتج ${i + 1}`} // Added aria-label for accessibility

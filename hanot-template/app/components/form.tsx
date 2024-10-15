@@ -6,7 +6,7 @@ import {
   PaymentStatus,
   ProductEntity,
   StoreEntity,
-  VariantOptionType,  
+  VariantOptionType,
 } from "feeef";
 import { FaPhone, FaUserAlt, FaHome, FaGlobe } from "react-icons/fa";
 import React, { useState } from "react";
@@ -84,9 +84,9 @@ const OrderForm = ({
   };
 
   return (
-    <div className="bg-white p-6 max-w-lg mx-auto border rounded-lg shadow-md border-blue-700">
+    <div className="bg-white p-4 max-w-lg mx-auto border rounded-lg shadow-md border-primary">
       {/* Title */}
-      <h2 className="text-lg font-bold mb-4 text-center text-gray-800">
+      <h2 className="text-lg font-bold mb-2 text-center">
         أضف معلوماتك في الأسفل للطلب 👇
       </h2>
 
@@ -95,7 +95,7 @@ const OrderForm = ({
         <div className="grid grid-cols-2 gap-4">
           {/* Full Name */}
           <div className="relative flex items-center border rounded-md px-3 py-2 focus-within:ring-2 ring-blue-500">
-            <FaUserAlt className="text-gray-500 ml-2" aria-hidden="true" />
+            <FaUserAlt className="text-primary ml-2" aria-hidden="true" />
             <label htmlFor="fullName" className="sr-only">
               الاسم بالكامل
             </label>
@@ -115,7 +115,7 @@ const OrderForm = ({
 
           {/* Phone Number */}
           <div className="relative flex items-center border rounded-md px-3 py-2 focus-within:ring-2 ring-blue-500">
-            <FaPhone className="text-gray-500 ml-2" aria-hidden="true" />
+            <FaPhone className="text-primary ml-2" aria-hidden="true" />
             <label htmlFor="phone" className="sr-only">
               رقم الهاتف
             </label>
@@ -136,8 +136,8 @@ const OrderForm = ({
 
         <div className="grid grid-cols-2 gap-4">
           {/* State */}
-          <div className="relative flex items-center border rounded-md px-3 py-2 focus-within:ring-2 ring-blue-500">
-            <FaGlobe className="text-blue-500 ml-2" aria-hidden="true" />
+          <div className="relative flex items-center border rounded-md px-3 py-2 focus-within:ring-2 ring-primary">
+            <FaGlobe className="text-primary ml-2" aria-hidden="true" />
             <label htmlFor="state" className="sr-only">
               الولاية
             </label>
@@ -164,8 +164,8 @@ const OrderForm = ({
           </div>
 
           {/* City */}
-          <div className="relative flex items-center border rounded-md px-3 py-2 focus-within:ring-2 ring-blue-500">
-            <FaHome className="text-gray-500 ml-2" aria-hidden="true" />
+          <div className="relative flex items-center border rounded-md px-3 py-2 focus-within:ring-2 ring-primary">
+            <FaHome className="text-primary ml-2" aria-hidden="true" />
             <label htmlFor="city" className="sr-only">
               البلدية
             </label>
@@ -182,8 +182,8 @@ const OrderForm = ({
               <option disabled value="البلدية">
                 البلدية
               </option>
-              {cities.map((city) => (
-                <option key={city[0]} value={city}>
+              {citiesList.map((city) => (
+                <option key={city} value={city}>
                   {city}
                 </option>
               ))}
@@ -191,51 +191,177 @@ const OrderForm = ({
           </div>
         </div>
 
-        {/* Quantity Selector and Add to Cart */}
-        <div className="flex items-center justify-between space-x-2">
-          <div className="flex items-center space-x-2">
-            <label htmlFor="quantity" className="text-gray-600">
-              الكمية
-            </label>
-            <div className="flex items-center bg-gray-200 text-gray-700 border-2 rounded-lg overflow-hidden">
-              <button
-                aria-label="تقليل الكمية"
-                type="button"
-                onClick={() =>
-                  setItem((prevItem) => ({
-                    ...prevItem,
-                    quantity: Math.max(1, prevItem.quantity - 1),
-                  }))
-                }
-                className="px-3 py-1 bg-gray-200 text-gray-700"
+        {/* Offers Section */}
+        <div className="product-color">
+          {product?.variant && (
+            <div className="gb p-4 rounded-xl">
+              <h2 className="text-xl font-semibold">الخيارات المتوفرة</h2>
+              <div className="h-2"></div>
+              {/* variant groups */}
+              <RenderVariantGroup
+                variantGroup={product!.variant!}
+                path={item.variants}
+                onPathChange={(path) => {
+                  if (item.variants.join() == path.join()) {
+                    // delete last variant
+                    path.pop();
+                  }
+                  item.variants = path;
+
+                  // cart.updateVariantPath(product.id, path.join("/"));
+
+                  return setItem({ ...item });
+                }}
+                onSelect={(variant) => {
+                  // console.log(variant!.value)
+
+                  if (variant?.type == VariantOptionType.image) {
+                    const mediaIndex = product?.media.findIndex(
+                      (media) => media == variant!.value
+                    );
+
+                    const el = document.getElementById(
+                      `slide-${mediaIndex! + 1}`
+                    );
+                    el?.scrollIntoView({
+                      behavior: "smooth",
+                      block: "center",
+                      inline: "center",
+                    });
+
+                    // setSelectedMediaIndex(mediaIndex!);
+
+                    // if (!import.meta.env.SSR) {
+                    //     // href={`#slide-${index + 1}`}
+                    //     window.history.pushState({}, "", `#slide-${mediaIndex}`);
+                    // }
+                  }
+
+                  // ViewContent
+                  // track("ViewContent", {
+                  //   content_name: product?.name + " " + variant?.name,
+                  //   // content_category: 'cloth',
+                  //   content_ids: [product?.id],
+                  //   content_type: "product",
+                  //   value: 55 ,
+                  //   currency: "DZD",
+                  // });
+                }}
+              />
+            </div>
+          )}
+          {/* name, phone, country|state */}
+          <div className="h-4"></div>
+          <div id="order-form" className="gb rounded-xl">
+            <div className="p-4">
+              {/* <ShippingForm
+                shippingMethod={product.shippingMethod}
+                store={store}
+                shipping={shipping}
+                setShipping={setShipping}
+                sendOrder={sendOrder}
+              /> */}
+
+              <div className="h-2"></div>
+              <div
+                // ref={sendOrderButtonRef}
+                className="pulse rounded-lg flex flex-col md:flex-row justify-between items-center"
               >
-                -
-              </button>
-              <span className="px-3 py-1">{item.quantity}</span>
-              <button
-                aria-label="زيادة الكمية"
-                type="button"
-                onClick={() =>
-                  setItem((prevItem) => ({
-                    ...prevItem,
-                    quantity: prevItem.quantity + 1,
-                  }))
-                }
-                className="px-3 py-1"
-              >
-                +
-              </button>
+                {/* <SendOrderButton id="fixed" /> */}
+              </div>
+              <div className="h-2"></div>
+              <div className="flex items-center justify-center">
+                <div className="text-gray-600">الكمية</div>
+                <div className="flex-grow"></div>
+                <div className="flex items-center bg-gray-200 text-gray-700 justify-center border-2 rounded-lg overflow-hidden">
+                  <button
+                    aria-label="تقليل الكمية"
+                    // onClick={() => {
+                    //   cart.updateQuantity(product.id, item.quantity - 1);
+                    //   setItem((prevItem) => ({
+                    //     ...prevItem,
+                    //     quantity:
+                    //       prevItem.quantity > 1 ? prevItem.quantity - 1 : 1,
+                    //   }));
+                    // }}
+                    className="px-3 py-1 bg-gray-200 text-gray-700 rounded-s-lg"
+                  >
+                    -
+                  </button>
+                  {/* <span className="px-3 py-1 ">{item.quantity}</span> */}
+                  <button
+                    aria-label="زيادة الكمية"
+                    // onClick={() => {
+                    //   cart.updateQuantity(product.id, item.quantity + 1);
+                    //   // Increase quantity
+                    //   setItem((prevItem) => ({
+                    //     ...prevItem,
+                    //     quantity: prevItem.quantity + 1,
+                    //   }));
+                    // }}
+                    className="px-3 py-1 "
+                  >
+                    +
+                  </button>
+                </div>
+                {/* add to cart */}
+                <div className="w-2"></div>
+                {/* {!cart.canAddProduct(product) ? null : !cart.hasProduct( */}
+                {/* product.id */}
+                {/* ) ? ( */}
+                <button
+                  aria-label="إضافة الى السلة"
+                  onClick={() => {
+                    // cart.add({
+                    //   quantity: item.quantity,
+                    //   price: getPriceAfterDiscount(),
+                    //   variantPath: item.variants.join("/"),
+                    //   product: product,
+                    // });
+                    // // update the ui
+                    // setItem({ ...item });
+                  }}
+                  className="px-3 py-1 rounded-lg border-2 border-primary text-primary"
+                >
+                  إضافة إلى السلة
+                </button>
+                {/* ) : ( */}
+
+                {/* )} */}
+              </div>
+            </div>
+            {/* divider */}
+            <div className="flex items-center justify-center">
+              <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div>
+
+              <div className="text-gray-600 mx-4">ملخص الطلب</div>
+              <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div>
             </div>
           </div>
+        </div>
 
+        {/* Buttons */}
+        <div className="text-center">
           <button
             type="submit"
-            aria-label="إضافة الى السلة"
-            className="px-4 py-2 bg-blue-700 text-white rounded-lg shadow hover:bg-blue-800 transition"
+            className="bg-primary text-foreground w-full py-2 rounded-lg my-2"
           >
-            إضافة إلى السلة
+            انقر هنا لتأكيد الطلب 👆
           </button>
+          {/* <button
+            type="button"
+            className="bg-green-500 text-white w-full py-2 rounded-lg"
+            onClick={() =>
+              window.open(
+                `https://wa.me/?text=Order%20${quantity}%20item(s)%20from%20${name}`
+              )
+            }
+          >
+            انقر هنا للطلب عبر الواتساب
+          </button> */}
         </div>
+
+        {/* Order Summary */}
       </form>
     </div>
   );

@@ -9,9 +9,9 @@ import Image from "next/image";
 // import { CartContext } from "./context";
 
 const Navbar = ({ store }: { store: StoreEntity }) => {
-  // const {addToCart ,cartItems} = useContext(CartContext);
+  // const { addToCart, cartItems } = useContext(CartContext);
 
- 
+  // console.log(cartItems);
 
   return (
     <header dir="rtl">

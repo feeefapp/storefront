@@ -1,4 +1,4 @@
-import localFont from 'next/font/local'
+import localFont from "next/font/local";
 import "./globals.css";
 
 import { fetchStore } from "./utils/actions";
@@ -35,7 +35,6 @@ const expoArabic = localFont({
   ],
 });
 
-
 // import alexendria from "next/font/alexendria";
 export async function generateMetadata(): Promise<Metadata> {
   const store = await fetchStore();
@@ -60,7 +59,6 @@ export async function generateMetadata(): Promise<Metadata> {
     },
   };
 }
-
 
 export default async function RootLayout({
   children,

@@ -16,6 +16,7 @@ import RenderVariantGroup from "./variantGroup";
 import cities from "../utils/cities";
 import states from "../utils/states";
 import { sendOrder } from "../utils/actions";
+import OrderSummary from "./OrderSummary";
 
 const OrderForm = ({
   store,
@@ -164,11 +165,12 @@ const OrderForm = ({
           </div>
 
           {/* City */}
-          <label htmlFor="city" className="relative flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 ring-primary">
+          <label
+            htmlFor="city"
+            className="relative flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 ring-primary"
+          >
             <FaHome className="text-primary ml-2" aria-hidden="true" />
-            <span className="sr-only">
-              البلدية
-            </span>
+            <span className="sr-only">البلدية</span>
             <select
               id="city"
               name="city"
@@ -276,29 +278,31 @@ const OrderForm = ({
                 <div className="flex items-center bg-gray-200 text-gray-700 justify-center border-2 rounded-lg overflow-hidden">
                   <button
                     aria-label="تقليل الكمية"
-                    // onClick={() => {
-                    //   cart.updateQuantity(product.id, item.quantity - 1);
-                    //   setItem((prevItem) => ({
-                    //     ...prevItem,
-                    //     quantity:
-                    //       prevItem.quantity > 1 ? prevItem.quantity - 1 : 1,
-                    //   }));
-                    // }}
+                    onClick={() => {
+                      //   cart.updateQuantity(product.id, item.quantity - 1);
+                      setItem((prevItem) => ({
+                        ...prevItem,
+                        quantity:
+                          prevItem.quantity > 1 ? prevItem.quantity - 1 : 1,
+                      }));
+                    }}
                     className="px-3 py-1 bg-gray-200 text-gray-700 rounded-s-lg"
+                    type="button"
                   >
                     -
                   </button>
-                  {/* <span className="px-3 py-1 ">{item.quantity}</span> */}
+                  <span className="px-3 py-1 ">{item.quantity}</span>
                   <button
+                    type="button"
                     aria-label="زيادة الكمية"
-                    // onClick={() => {
-                    //   cart.updateQuantity(product.id, item.quantity + 1);
-                    //   // Increase quantity
-                    //   setItem((prevItem) => ({
-                    //     ...prevItem,
-                    //     quantity: prevItem.quantity + 1,
-                    //   }));
-                    // }}
+                    onClick={() => {
+                      //   cart.updateQuantity(product.id, item.quantity + 1);
+                      //   // Increase quantity
+                      setItem((prevItem) => ({
+                        ...prevItem,
+                        quantity: prevItem.quantity + 1,
+                      }));
+                    }}
                     className="px-3 py-1 "
                   >
                     +
@@ -319,7 +323,7 @@ const OrderForm = ({
                     //   product: product,
                     // });
                     // // update the ui
-                    // setItem({ ...item });
+                    setItem({ ...item });
                   }}
                   className="px-3 py-1 rounded-lg border-2 border-primary text-primary"
                 >
@@ -334,34 +338,28 @@ const OrderForm = ({
         </div>
 
         {/* Buttons */}
-        <div className="text-center">
-          <button
-            type="submit"
-            className="bg-primary text-white w-full py-2 rounded-lg my-2"
-          >
-            انقر هنا لتأكيد الطلب 👆
-          </button>
-          {/* <button
-            type="button"
-            className="bg-green-500 text-white w-full py-2 rounded-lg"
-            onClick={() =>
-              window.open(
-                `https://wa.me/?text=Order%20${quantity}%20item(s)%20from%20${name}`
-              )
-            }
-          >
-            انقر هنا للطلب عبر الواتساب
-          </button> */}
-        </div>
+       
 
         {/* Order Summary */}
 
         {/* divider */}
         <div className="flex items-center justify-center">
           <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div>
-
+{/* 
           <div className="text-gray-600 mx-4">ملخص الطلب</div>
-          <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div>
+          <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div> */}
+
+          <OrderSummary
+            items={[
+              {
+                productId: product.id,
+                productName: product.name!,
+                price: product.price,
+                quantity: form.quantity,
+              },
+            ]}
+            shippingPrice={0}
+          />
         </div>
       </form>
     </div>

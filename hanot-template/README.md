@@ -1,8 +1,8 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+QS105 in opensource e-commerce template for feeef.app platform.
 
 ## Getting Started
 
-First, run the development server:
+like any nextjs app, run the development server:
 
 ```bash
 npm run dev
@@ -24,6 +24,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 To learn more about Next.js, take a look at the following resources:
 
+- [Feeef Documentation](https://docs.feeef.app/) - learn about feeef's API.
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 

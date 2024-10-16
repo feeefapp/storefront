@@ -12,7 +12,7 @@ export default function ProductNavbar({
   store: StoreEntity;
 }) {
   return (
-    <nav className="bg-white shadow-md py-4">
+    <nav className="bg-white shadow-sm py-4">
       <div className="container mx-auto flex items-center justify-around">
         {/* Left: Store Logo */}
         <div className="flex gap-5">
@@ -27,7 +27,8 @@ export default function ProductNavbar({
               />
             </Link>
           </div>
-          <span className=" bg-gray-700 w-[1px]  h-16 inline-block" />
+          {/* gradient  transpenet -> black -> transpenet */}
+          <span className="w-[1px]  h-16 inline-block" style={{background: 'linear-gradient(transparent, grey, transparent)'}}></span>
           {/* Center: Product Title and Rating */}
           <div className="flex flex-col items-center justify-center">
             <h1 className="text-lg font-semibold">{product.name}</h1>

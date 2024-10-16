@@ -84,17 +84,17 @@ const OrderForm = ({
   };
 
   return (
-    <div className="bg-white p-4 max-w-lg mx-auto border rounded-lg shadow-md border-primary">
+    <div className="bg-white p-4 border rounded-xl shadow-md border-primary">
       {/* Title */}
       <h2 className="text-lg font-bold mb-2 text-center">
         أضف معلوماتك في الأسفل للطلب 👇
       </h2>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-2 gap-3 mb-3">
           {/* Full Name */}
-          <div className="relative flex items-center border rounded-md px-3 py-2 focus-within:ring-2 ring-blue-500">
+          <div className="relative flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 ring-blue-500">
             <FaUserAlt className="text-primary ml-2" aria-hidden="true" />
             <label htmlFor="fullName" className="sr-only">
               الاسم بالكامل
@@ -114,7 +114,7 @@ const OrderForm = ({
           </div>
 
           {/* Phone Number */}
-          <div className="relative flex items-center border rounded-md px-3 py-2 focus-within:ring-2 ring-blue-500">
+          <div className="relative flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 ring-blue-500">
             <FaPhone className="text-primary ml-2" aria-hidden="true" />
             <label htmlFor="phone" className="sr-only">
               رقم الهاتف
@@ -134,9 +134,9 @@ const OrderForm = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           {/* State */}
-          <div className="relative flex items-center border rounded-md px-3 py-2 focus-within:ring-2 ring-primary">
+          <div className="relative flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 ring-primary">
             <FaGlobe className="text-primary ml-2" aria-hidden="true" />
             <label htmlFor="state" className="sr-only">
               الولاية
@@ -164,11 +164,11 @@ const OrderForm = ({
           </div>
 
           {/* City */}
-          <div className="relative flex items-center border rounded-md px-3 py-2 focus-within:ring-2 ring-primary">
+          <label htmlFor="city" className="relative flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 ring-primary">
             <FaHome className="text-primary ml-2" aria-hidden="true" />
-            <label htmlFor="city" className="sr-only">
+            <span className="sr-only">
               البلدية
-            </label>
+            </span>
             <select
               id="city"
               name="city"
@@ -188,7 +188,7 @@ const OrderForm = ({
                 </option>
               ))}
             </select>
-          </div>
+          </label>
         </div>
 
         {/* Offers Section */}
@@ -330,13 +330,6 @@ const OrderForm = ({
                 {/* )} */}
               </div>
             </div>
-            {/* divider */}
-            <div className="flex items-center justify-center">
-              <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div>
-
-              <div className="text-gray-600 mx-4">ملخص الطلب</div>
-              <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div>
-            </div>
           </div>
         </div>
 
@@ -362,6 +355,14 @@ const OrderForm = ({
         </div>
 
         {/* Order Summary */}
+
+        {/* divider */}
+        <div className="flex items-center justify-center">
+          <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div>
+
+          <div className="text-gray-600 mx-4">ملخص الطلب</div>
+          <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div>
+        </div>
       </form>
     </div>
   );

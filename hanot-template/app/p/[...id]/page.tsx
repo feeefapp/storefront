@@ -40,9 +40,9 @@ async function ProductPage({ params: { id } }: { params: { id: string } }) {
         <ProductNavbar store={store} product={product} />
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 max-w-screen-xl mx-auto ">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-5 max-w-screen-lg mx-auto ">
           {/* Left: Product Gallery */}
-          <div className="md:sticky top-0 md:h-screen overflow-y-auto border-r border-gray-200 pr-4">
+          <div className="md:sticky top-0 md:h-screen overflow-y-auto">
             <Suspense fallback={<Loader />}>
               <ProductGallery productImages={product.media} />
             </Suspense>
@@ -57,7 +57,7 @@ async function ProductPage({ params: { id } }: { params: { id: string } }) {
 
             {/* Product Description */}
             {product.body && (
-              <div className="prose prose-lg max-w-none text-xl px-6 ">
+              <div className="prose prose-lg max-w-none text-xl ">
                 <Markdown
                   components={{
                     img: ({ src, alt }) => (

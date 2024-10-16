@@ -16,29 +16,29 @@ const ProductGallery = ({ productImages }: ProductGalleryProps) => {
   };
 
   return (
-    <div className="flex flex-col items-center max-w-3xl mx-auto px-4 overflow-hidden">
+    <div className="flex flex-col items-center rounded-xl">
       {/* Main Image */}
-      <div className="h-[400px] sm:h-[500px] relative aspect-square w-full mb-4 hover:overflow-hidden">
+      <div className="relative aspect-square w-full mb-5">
         <Image
           src={productImages[index]}
           alt={`عرض صورة المنتج ${index + 1}`}
           fill
           sizes="50vw"
-          className="object-contain rounded-lg  transition-transform duration-300 hover:scale-105" // Zoom effect on hover
+          className="object-cover rounded-xl  transition-transform duration-300 hover:scale-90" // Zoom effect on hover
           priority={true} // Load main image first
         />
       </div>
 
       {/* Thumbnails */}
       <div
-        className="w-full flex justify-center items-center gap-4 mt-4 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory"
+        className="w-full flex justify-center items-center gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory"
         style={{ WebkitOverflowScrolling: "touch" }} // Enable smooth scrolling on iOS
       >
         {productImages.map((item, i) => (
           <div
-            className={`relative w-20 h-20 sm:w-24 sm:h-24 aspect-square cursor-pointer rounded-lg snap-center 
+            className={`relative w-20 h-20 sm:w-24 sm:h-24 aspect-square cursor-pointer rounded-2xl snap-center 
             ${
-              index === i ? "ring-4 ring-primary" : "opacity-75"
+              index === i ? "border-4 border-primary p-2" : "opacity-75"
             } hover:opacity-100  transition-all duration-300`} // Improved thumbnail highlight
             key={`${id}-${i}`}
             onClick={() => handleClick(i)}
@@ -49,7 +49,7 @@ const ProductGallery = ({ productImages }: ProductGalleryProps) => {
               alt={`صورة مصغرة للمنتج ${i + 1}`}
               fill
               sizes="10vw"
-              className="object-cover rounded-md transition-opacity duration-300"
+              className="object-cover rounded-xl transition-opacity duration-300"
             />
           </div>
         ))}

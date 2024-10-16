@@ -12,8 +12,8 @@ export default function ProductNavbar({
   store: StoreEntity;
 }) {
   return (
-    <nav className="bg-white shadow-sm py-4">
-      <div className="container mx-auto flex items-center justify-around">
+    <nav className="bg-white shadow-sm py-2">
+      <div className="max-w-screen-lg px-5 mx-auto flex items-center justify-between">
         {/* Left: Store Logo */}
         <div className="flex gap-5">
           <div className="flex items-center">

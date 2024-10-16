@@ -1,6 +1,8 @@
 "use client";
 import { useState, useId } from "react";
 import Image from "next/image";
+import { PhotoView,PhotoProvider } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 
 interface ProductGalleryProps {
   productImages: string[];
@@ -16,17 +18,20 @@ const ProductGallery = ({ productImages }: ProductGalleryProps) => {
   };
 
   return (
+    <PhotoProvider>
     <div className="flex flex-col items-center rounded-xl">
       {/* Main Image */}
       <div className="relative aspect-square w-full mb-5">
-        <Image
-          src={productImages[index]}
-          alt={`عرض صورة المنتج ${index + 1}`}
-          fill
-          sizes="50vw"
-          className="object-cover rounded-xl  transition-transform duration-300 hover:scale-90" // Zoom effect on hover
-          priority={true} // Load main image first
-        />
+        <PhotoView src={productImages[index]}>
+          <Image
+            src={productImages[index]}
+            alt={`عرض صورة المنتج ${index + 1}`}
+            fill
+            sizes="50vw"
+            className="object-cover rounded-xl  transition-transform duration-300 hover:scale-90" // Zoom effect on hover
+            priority={true} // Load main image first
+          />
+        </PhotoView>
       </div>
 
       {/* Thumbnails */}
@@ -55,6 +60,7 @@ const ProductGallery = ({ productImages }: ProductGalleryProps) => {
         ))}
       </div>
     </div>
+    </PhotoProvider>
   );
 };
 

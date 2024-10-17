@@ -342,13 +342,16 @@ const OrderForm = ({
         {/* divider */}
         <div className="flex items-center justify-center">
           <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div>
+          {/* 
+          <div className="text-gray-600 mx-4">ملخص الطلب</div>
+          <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div> */}
           <OrderSummary
             items={[
               {
                 productId: product.id,
                 productName: product.name!,
-                quantity: form.quantity,
                 price: product.price,
+                quantity: form.quantity,
               },
             ]}
             shippingPrice={0}

@@ -18,7 +18,7 @@ const ProductGallery = dynamic(
   () => import("@/app/components/productsGallery"),
   {
     suspense: true,
-    ssr: true,
+    ssr: false,
     loading: () => <Loader />,
   }
 );
@@ -42,8 +42,8 @@ async function ProductPage({ params: { id } }: { params: { id: string } }) {
         {/* Main Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-5 max-w-screen-lg mx-auto ">
           {/* Left: Product Gallery */}
-          <div className="md:sticky top-0 md:h-screen overflow-y-auto">
-            <Suspense fallback={<Loader />}>
+          <div className="md:sticky fix w-full top-0 md:h-screen overflow-y-auto">
+            <Suspense fallback={<Loader className="min-h-screen" />}>
               <ProductGallery productImages={product.media} />
             </Suspense>
           </div>

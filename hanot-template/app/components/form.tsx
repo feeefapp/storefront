@@ -1,5 +1,6 @@
 "use client";
 import {
+  CartService,
   DeliveryStatus,
   OrderEntity,
   OrderStatus,
@@ -9,7 +10,7 @@ import {
   VariantOptionType,
 } from "feeef";
 import { FaPhone, FaUserAlt, FaHome, FaGlobe } from "react-icons/fa";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import RenderVariantGroup from "./variantGroup";
 
@@ -17,6 +18,7 @@ import cities from "../utils/cities";
 import states from "../utils/states";
 import { sendOrder } from "../utils/actions";
 import OrderSummary from "./OrderSummary";
+import { ff } from "../utils/configs";
 
 const OrderForm = ({
   store,
@@ -84,6 +86,36 @@ const OrderForm = ({
     sendOrder(data);
   };
 
+
+
+
+
+
+
+
+  /////////////////////////// new
+  // CartItem
+  const [currentItem, setCurrentItem] = useState(ff.cart.getCurrentItem());
+
+
+  useEffect(() => {
+    var fn = (cart: CartService) => {
+      setCurrentItem(cart.getCurrentItem());
+    }
+    ff.cart.addListener(fn);
+
+    ff.cart.setShippingMethod(product.shippingMethod || store);
+    ff.cart.setCurrentItem({
+      product: product,
+      quantity: 1,
+    });
+
+    return () => {
+      ff.cart.removeListener(fn);
+    }
+  }, [])
+
+
   return (
     <div className="bg-white p-4 border rounded-xl shadow-md border-primary">
       {/* Title */}
@@ -104,10 +136,13 @@ const OrderForm = ({
               id="fullName"
               type="text"
               name="fullName"
-              placeholder="الاسم بالكامل"
-              value={form.name}
+              placeholder="الاسم الكامل"
+              value={ff.cart.getShippingAddress().name ?? ""}
               onChange={(e) =>
-                setForm((prev) => ({ ...prev, name: e.target.value }))
+                ff.cart.setShippingAddress({
+                  ...ff.cart.getShippingAddress(),
+                  name: e.target.value,
+                })
               }
               className="w-full bg-transparent focus:outline-none text-right"
               required
@@ -125,9 +160,12 @@ const OrderForm = ({
               type="tel"
               name="phone"
               placeholder="رقم الهاتف"
-              value={form.phone}
+              value={ff.cart.getShippingAddress().phone ?? ""}
               onChange={(e) =>
-                setForm((prev) => ({ ...prev, phone: e.target.value }))
+                ff.cart.setShippingAddress({
+                  ...ff.cart.getShippingAddress(),
+                  phone: e.target.value,
+                })
               }
               className="w-full bg-transparent focus:outline-none text-right"
               required
@@ -145,10 +183,13 @@ const OrderForm = ({
             <select
               id="state"
               name="state"
-              value={form.state || "الولاية"}
+              value={ff.cart.getShippingAddress().state || "الولاية"}
               onChange={(e) => {
-                setForm((prev) => ({ ...prev, state: e.target.value }));
-                setCitiesList(cities[states.indexOf(e.target.value)]);
+                setCitiesList(cities[Number.parseInt(e.target.value)-1]);
+                ff.cart.setShippingAddress({
+                  ...ff.cart.getShippingAddress(),
+                  state: e.target.value,
+                })
               }}
               className="w-full bg-transparent focus:outline-none text-right"
               required
@@ -156,8 +197,8 @@ const OrderForm = ({
               <option disabled value="الولاية">
                 الولاية
               </option>
-              {states.map((state) => (
-                <option key={state} value={state}>
+              {states.map((state, index) => (
+                <option key={index} value={index+1}>
                   {state}
                 </option>
               ))}
@@ -174,9 +215,12 @@ const OrderForm = ({
             <select
               id="city"
               name="city"
-              value={form.city || "البلدية"}
+              value={ff.cart.getShippingAddress().city || "البلدية"}
               onChange={(e) =>
-                setForm((prev) => ({ ...prev, city: e.target.value }))
+                ff.cart.setShippingAddress({
+                  ...ff.cart.getShippingAddress(),
+                  city: e.target.value,
+                })
               }
               className="w-full bg-transparent focus:outline-none text-right"
               required
@@ -270,30 +314,26 @@ const OrderForm = ({
                 <div className="flex items-center bg-gray-200 text-gray-700 justify-center border-2 rounded-lg overflow-hidden">
                   <button
                     aria-label="تقليل الكمية"
-                    onClick={() => {
-                      //   cart.updateQuantity(product.id, item.quantity - 1);
-                      setItem((prevItem) => ({
-                        ...prevItem,
-                        quantity:
-                          prevItem.quantity > 1 ? prevItem.quantity - 1 : 1,
-                      }));
+                    onClick={() => {                      
+                      ff.cart.setCurrentItem({
+                        ...ff.cart.getCurrentItem()!,
+                        quantity: ff.cart.getCurrentItem()!.quantity-1,
+                      })
                     }}
                     className="px-3 py-1 bg-gray-200 text-gray-700 rounded-s-lg"
                     type="button"
                   >
                     -
                   </button>
-                  <span className="px-3 py-1 ">{item.quantity}</span>
+                  <span className="px-3 py-1 ">{ff.cart.getCurrentItem()?.quantity}</span>
                   <button
                     type="button"
                     aria-label="زيادة الكمية"
                     onClick={() => {
-                      //   cart.updateQuantity(product.id, item.quantity + 1);
-                      //   // Increase quantity
-                      setItem((prevItem) => ({
-                        ...prevItem,
-                        quantity: prevItem.quantity + 1,
-                      }));
+                      ff.cart.setCurrentItem({
+                        ...ff.cart.getCurrentItem()!,
+                        quantity: ff.cart.getCurrentItem()!.quantity+1,
+                      })
                     }}
                     className="px-3 py-1 "
                   >

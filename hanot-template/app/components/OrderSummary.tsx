@@ -1,4 +1,6 @@
-import React from "react"; // { useState }
+import { CartService } from "feeef";
+import React, { useEffect, useState } from "react"; // { useState }
+import { ff } from "../utils/configs";
 
 interface OrderItem {
   productId: string;
@@ -12,16 +14,19 @@ interface OrderSummaryProps {
   shippingPrice: number; // Shipping price
 }
 
-const OrderSummary: React.FC<OrderSummaryProps> = ({
-  items,
-  shippingPrice,
-}) => {
-  // Calculate the subtotal
-  const subtotal = items.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
-  const total = subtotal + shippingPrice;
+const OrderSummary: React.FC<OrderSummaryProps> = () => {
+
+  const [cart, setCart] = useState<CartService>(ff.cart);
+
+  useEffect(() => {
+    var fn = (cart: CartService) => {
+      setCart(cart);
+    }
+    cart.addListener(fn);
+    return () => {
+      cart.removeListener(fn);
+    }
+  }, [])
 
   return (
     <div className="p-4 bg-white rounded-md shadow-md w-full max-w-md">
@@ -30,14 +35,14 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       </h3>
 
       {/* Product items list */}
-      {items.map((item) => (
+      {cart.getAll().map((item) => (
         <div
-          key={item.productId}
+          key={item.product.id}
           className="flex justify-between border-b pb-2 mb-2"
         >
-          <span>{item.productName}</span>
+          <span>{item.product.id}</span>
           <span className="flex items-center">
-            <span className="ml-2">{item.price} دج</span>
+            <span className="ml-2">{cart.getItemTotal(item)} دج</span>
             <span className="bg-primary text-white text-xs px-2 py-1 rounded-md">
               x{item.quantity}
             </span>
@@ -48,13 +53,13 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       {/* Shipping Price */}
       <div className="flex justify-between mt-2 text-sm text-gray-600">
         <span>سعر التوصيل</span>
-        <span>{shippingPrice} دج</span>
+        <span>{cart.getShippingPrice()} دج</span>
       </div>
 
       {/* Total Price */}
       <div className="flex justify-between mt-4 text-lg font-bold text-blue-600">
         <span>السعر الإجمالي</span>
-        <span>{total} دج</span>
+        <span>{cart.getTotal()} دج</span>
       </div>
 
       {/* Order confirmation button */}

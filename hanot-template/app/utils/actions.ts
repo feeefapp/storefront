@@ -3,13 +3,9 @@
 import { FeeeF, OrderEntity } from "feeef";
 import { headers } from "next/headers";
 import { cache } from "react";
+import { ff } from "./configs";
 
-const ff = new FeeeF({
-  apiKey:
-    process.env.FEEEF_API_KEY || "c43Yfd3bgolijJU3b3bx095vlfTrvnL94baZrd1",
-  baseURL: "https://feeef.app/api/v1",
-  cache: 10,
-});
+
 
 export const fetchStore = cache(async () => {
   try {

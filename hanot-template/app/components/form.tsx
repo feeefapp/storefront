@@ -256,14 +256,6 @@ const OrderForm = ({
           <div className="h-4"></div>
           <div id="order-form" className="gb rounded-xl">
             <div className="p-4">
-              {/* <ShippingForm
-                shippingMethod={product.shippingMethod}
-                store={store}
-                shipping={shipping}
-                setShipping={setShipping}
-                sendOrder={sendOrder}
-              /> */}
-
               <div className="h-2"></div>
               <div
                 // ref={sendOrderButtonRef}
@@ -314,6 +306,7 @@ const OrderForm = ({
                 {/* product.id */}
                 {/* ) ? ( */}
                 <button
+                  type="button"
                   aria-label="إضافة الى السلة"
                   onClick={() => {
                     // cart.add({
@@ -325,6 +318,11 @@ const OrderForm = ({
                     // // update the ui
                     setItem({ ...item });
                   }}
+                  disabled={
+                    // !cart.canAddProduct(product) ||
+                    // cart.hasProduct(product.id)
+                    false
+                  }
                   className="px-3 py-1 rounded-lg border-2 border-primary text-primary"
                 >
                   إضافة إلى السلة
@@ -347,7 +345,6 @@ const OrderForm = ({
           {/* 
           <div className="text-gray-600 mx-4">ملخص الطلب</div>
           <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div> */}
-
           <OrderSummary
             items={[
               {

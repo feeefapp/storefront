@@ -338,14 +338,13 @@ const OrderForm = ({
         </div>
 
         {/* Buttons */}
-       
 
         {/* Order Summary */}
 
         {/* divider */}
         <div className="flex items-center justify-center">
           <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div>
-{/* 
+          {/* 
           <div className="text-gray-600 mx-4">ملخص الطلب</div>
           <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div> */}
 

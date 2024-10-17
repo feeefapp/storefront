@@ -9,7 +9,10 @@
   }
 }
 
-
+.fix {
+  width: 100%;
+  height: calc(100vw + 80px);
+}
 
 @layer utilities {
   .text-balance {

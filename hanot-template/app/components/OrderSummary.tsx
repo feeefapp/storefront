@@ -39,7 +39,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           <span>{item.productName}</span>
           <span className="flex items-center">
             <span className="ml-2">{item.price} دج</span>
-            <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-md">
+            <span className="bg-primary text-white text-xs px-2 py-1 rounded-md">
               x{item.quantity}
             </span>
           </span>

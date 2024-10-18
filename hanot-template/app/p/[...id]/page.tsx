@@ -57,7 +57,7 @@ async function ProductPage({ params: { id } }: { params: { id: string } }) {
 
             {/* Product Description */}
             {product.body && (
-              <div className="prose prose-lg max-w-none text-xl ">
+              <div className="prose prose-lg max-w-none text-xl w-full">
                 <Markdown
                   components={{
                     img: ({ src, alt }) => (

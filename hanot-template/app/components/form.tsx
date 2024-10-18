@@ -1,7 +1,9 @@
 "use client";
 import {
+  CartService,
   DeliveryStatus,
   OrderEntity,
+  OrderItem,
   OrderStatus,
   PaymentStatus,
   ProductEntity,
@@ -9,7 +11,7 @@ import {
   VariantOptionType,
 } from "feeef";
 import { FaPhone, FaUserAlt, FaHome, FaGlobe } from "react-icons/fa";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import RenderVariantGroup from "./variantGroup";
 
@@ -17,6 +19,7 @@ import cities from "../utils/cities";
 import states from "../utils/states";
 import { sendOrder } from "../utils/actions";
 import OrderSummary from "./OrderSummary";
+import { ff } from "../utils/configs";
 
 const OrderForm = ({
   store,
@@ -43,12 +46,6 @@ const OrderForm = ({
 
   // pick the cities from the selected state by the index
   const [citiesList, setCitiesList] = useState<string[]>(cities[0]);
-
-  const [item, setItem] = useState<LocalOrderItem>({
-    product: product,
-    variants: [],
-    quantity: 1,
-  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,6 +81,42 @@ const OrderForm = ({
     sendOrder(data);
   };
 
+
+
+
+
+
+
+
+  /////////////////////////// new
+  // CartItem
+  const [currentItem, setCurrentItem] = useState(ff.cart.getCurrentItem());
+  const [shippingAddress, setShippingAddress] = useState(ff.cart.getShippingAddress());
+  const [shippingMethod, setShippingMethod] = useState(ff.cart.getShippingMethod());
+  const [items, setItems] = useState(ff.cart.getAll());
+
+
+  useEffect(() => {
+    var fn = (cart: CartService) => {
+      setCurrentItem(cart.getCurrentItem());
+      setShippingAddress(cart.getShippingAddress());
+      setShippingMethod(cart.getShippingMethod());
+      setItems(cart.getAll());
+    }
+    ff.cart.addListener(fn);
+
+    ff.cart.setShippingMethod(product.shippingMethod || store);
+    ff.cart.setCurrentItem({
+      product: product,
+      quantity: 1,
+    });
+
+    return () => {
+      ff.cart.removeListener(fn);
+    }
+  }, [])
+
+
   return (
     <div className="bg-white p-4 border rounded-xl shadow-md border-primary">
       {/* Title */}
@@ -104,10 +137,12 @@ const OrderForm = ({
               id="fullName"
               type="text"
               name="fullName"
-              placeholder="الاسم بالكامل"
-              value={form.name}
+              placeholder="الاسم الكامل"
+              value={ff.cart.getShippingAddress().name ?? ""}
               onChange={(e) =>
-                setForm((prev) => ({ ...prev, name: e.target.value }))
+                ff.cart.updateShippingAddress({
+                  name: e.target.value,
+                })
               }
               className="w-full bg-transparent focus:outline-none text-right"
               required
@@ -125,9 +160,11 @@ const OrderForm = ({
               type="tel"
               name="phone"
               placeholder="رقم الهاتف"
-              value={form.phone}
+              value={ff.cart.getShippingAddress().phone ?? ""}
               onChange={(e) =>
-                setForm((prev) => ({ ...prev, phone: e.target.value }))
+                ff.cart.updateShippingAddress({
+                  phone: e.target.value,
+                })
               }
               className="w-full bg-transparent focus:outline-none text-right"
               required
@@ -145,10 +182,11 @@ const OrderForm = ({
             <select
               id="state"
               name="state"
-              value={form.state || "الولاية"}
+              value={ff.cart.getShippingAddress().state || "الولاية"}
               onChange={(e) => {
-                setForm((prev) => ({ ...prev, state: e.target.value }));
-                setCitiesList(cities[states.indexOf(e.target.value)]);
+                ff.cart.updateShippingAddress({
+                  state: e.target.value,
+                })
               }}
               className="w-full bg-transparent focus:outline-none text-right"
               required
@@ -156,8 +194,8 @@ const OrderForm = ({
               <option disabled value="الولاية">
                 الولاية
               </option>
-              {states.map((state) => (
-                <option key={state} value={state}>
+              {states.map((state, index) => (
+                <option key={index} value={index+1}>
                   {state}
                 </option>
               ))}
@@ -174,9 +212,11 @@ const OrderForm = ({
             <select
               id="city"
               name="city"
-              value={form.city || "البلدية"}
+              value={ff.cart.getShippingAddress().city || "البلدية"}
               onChange={(e) =>
-                setForm((prev) => ({ ...prev, city: e.target.value }))
+                ff.cart.updateShippingAddress({
+                  city: e.target.value,
+                })
               }
               className="w-full bg-transparent focus:outline-none text-right"
               required
@@ -197,47 +237,37 @@ const OrderForm = ({
         <div className="product-color">
           {product?.variant && (
             <div className="gb p-4 rounded-xl">
-              <h2 className="text-xl font-semibold">الخيارات المتوفرة</h2>
-              <div className="h-2"></div>
               {/* variant groups */}
               <RenderVariantGroup
                 variantGroup={product!.variant!}
-                path={item.variants}
+                path={currentItem?.variant?.split("/") || []}
                 onPathChange={(path) => {
-                  if (item.variants.join() == path.join()) {
-                    // delete last variant
-                    path.pop();
-                  }
-                  item.variants = path;
-
-                  // cart.updateVariantPath(product.id, path.join("/"));
-
-                  return setItem({ ...item });
+                  ff.cart.updateCurrentItem({
+                    variant: path.join("/"),
+                  });
                 }}
                 onSelect={(variant) => {
-                  // console.log(variant!.value)
+                  // if (variant?.type == VariantOptionType.image) {
+                  //   const mediaIndex = product?.media.findIndex(
+                  //     (media) => media == variant!.value
+                  //   );
 
-                  if (variant?.type == VariantOptionType.image) {
-                    const mediaIndex = product?.media.findIndex(
-                      (media) => media == variant!.value
-                    );
+                  //   const el = document.getElementById(
+                  //     `slide-${mediaIndex! + 1}`
+                  //   );
+                  //   el?.scrollIntoView({
+                  //     behavior: "smooth",
+                  //     block: "center",
+                  //     inline: "center",
+                  //   });
 
-                    const el = document.getElementById(
-                      `slide-${mediaIndex! + 1}`
-                    );
-                    el?.scrollIntoView({
-                      behavior: "smooth",
-                      block: "center",
-                      inline: "center",
-                    });
+                  //   // setSelectedMediaIndex(mediaIndex!);
 
-                    // setSelectedMediaIndex(mediaIndex!);
-
-                    // if (!import.meta.env.SSR) {
-                    //     // href={`#slide-${index + 1}`}
-                    //     window.history.pushState({}, "", `#slide-${mediaIndex}`);
-                    // }
-                  }
+                  //   // if (!import.meta.env.SSR) {
+                  //   //     // href={`#slide-${index + 1}`}
+                  //   //     window.history.pushState({}, "", `#slide-${mediaIndex}`);
+                  //   // }
+                  // }
 
                   // ViewContent
                   // track("ViewContent", {
@@ -248,22 +278,23 @@ const OrderForm = ({
                   //   value: 55 ,
                   //   currency: "DZD",
                   // });
+
+                  if (variant?.type == VariantOptionType.image) {
+                    // 
+                  }
                 }}
               />
             </div>
           )}
           {/* name, phone, country|state */}
-          <div className="h-4"></div>
           <div id="order-form" className="gb rounded-xl">
             <div className="p-4">
-              <div className="h-2"></div>
               <div
                 // ref={sendOrderButtonRef}
                 className="pulse rounded-lg flex flex-col md:flex-row justify-between items-center"
               >
                 {/* <SendOrderButton id="fixed" /> */}
               </div>
-              <div className="h-2"></div>
               <div className="flex items-center justify-center">
                 <div className="text-gray-600">الكمية</div>
                 <div className="flex-grow"></div>
@@ -271,29 +302,27 @@ const OrderForm = ({
                   <button
                     aria-label="تقليل الكمية"
                     onClick={() => {
-                      //   cart.updateQuantity(product.id, item.quantity - 1);
-                      setItem((prevItem) => ({
-                        ...prevItem,
-                        quantity:
-                          prevItem.quantity > 1 ? prevItem.quantity - 1 : 1,
-                      }));
+                      if (ff.cart.getCurrentItem()!.quantity == 1) {
+                        alert("أقل كمية يمكن طلبها هي 1");
+                        return;
+                      }
+                      ff.cart.updateCurrentItem({
+                        quantity: ff.cart.getCurrentItem()!.quantity-1,
+                      })
                     }}
                     className="px-3 py-1 bg-gray-200 text-gray-700 rounded-s-lg"
                     type="button"
                   >
                     -
                   </button>
-                  <span className="px-3 py-1 ">{item.quantity}</span>
+                  <span className="px-3 py-1 ">{ff.cart.getCurrentItem()?.quantity}</span>
                   <button
                     type="button"
                     aria-label="زيادة الكمية"
                     onClick={() => {
-                      //   cart.updateQuantity(product.id, item.quantity + 1);
-                      //   // Increase quantity
-                      setItem((prevItem) => ({
-                        ...prevItem,
-                        quantity: prevItem.quantity + 1,
-                      }));
+                      ff.cart.updateCurrentItem({
+                        quantity: ff.cart.getCurrentItem()!.quantity+1,
+                      })
                     }}
                     className="px-3 py-1 "
                   >
@@ -302,34 +331,30 @@ const OrderForm = ({
                 </div>
                 {/* add to cart */}
                 <div className="w-2"></div>
-                {/* {!cart.canAddProduct(product) ? null : !cart.hasProduct( */}
-                {/* product.id */}
-                {/* ) ? ( */}
-                <button
+                {
+                  ff.cart.has(product.id) ?
+                  <button
+                  type="button"
+                  aria-label="حذف من السلة"
+                  onClick={() => {
+                    ff.cart.remove(product.id);
+                  }}
+                  className="px-3 py-1 rounded-lg border-2 border-red-500 text-red-500"
+                  >
+                  حذف من السلة
+                </button>
+                :
+                  <button
                   type="button"
                   aria-label="إضافة الى السلة"
                   onClick={() => {
-                    // cart.add({
-                    //   quantity: item.quantity,
-                    //   price: getPriceAfterDiscount(),
-                    //   variantPath: item.variants.join("/"),
-                    //   product: product,
-                    // });
-                    // // update the ui
-                    setItem({ ...item });
+                    ff.cart.add(ff.cart.getCurrentItem()!);
                   }}
-                  disabled={
-                    // !cart.canAddProduct(product) ||
-                    // cart.hasProduct(product.id)
-                    false
-                  }
                   className="px-3 py-1 rounded-lg border-2 border-primary text-primary"
-                >
+                  >
                   إضافة إلى السلة
                 </button>
-                {/* ) : ( */}
-
-                {/* )} */}
+                }
               </div>
             </div>
           </div>
@@ -342,9 +367,6 @@ const OrderForm = ({
         {/* divider */}
         <div className="flex items-center justify-center">
           <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div>
-          {/* 
-          <div className="text-gray-600 mx-4">ملخص الطلب</div>
-          <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div> */}
           <OrderSummary
             items={[
               {

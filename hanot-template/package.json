@@ -20,7 +20,7 @@
     "@types/mdx": "^2.0.13",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "feeef": "^0.1.8",
+    "feeef": "^0.3.8",
     "lucide-react": "^0.447.0",
     "next": "14.2.13",
     "next-mdx-remote": "^5.0.0",

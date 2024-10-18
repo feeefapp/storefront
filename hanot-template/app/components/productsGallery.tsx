@@ -36,14 +36,14 @@ const ProductGallery = ({ productImages }: ProductGalleryProps) => {
 
         {/* Thumbnails */}
         <div
-          className="w-full flex justify-center items-center gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory"
+          className="w-full flex justify-center items-center gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory flex-wrap justify-between"
           style={{ WebkitOverflowScrolling: "touch" }} // Enable smooth scrolling on iOS
         >
           {productImages.map((item, i) => (
             <div
               className={`relative w-20 h-20 sm:w-24 sm:h-24 aspect-square cursor-pointer rounded-2xl snap-center 
             ${
-              index === i ? "border-4 border-primary p-2" : "opacity-75"
+              index === i ? "border-[3px] border-primary p-2" : "opacity-75"
             } hover:opacity-100  transition-all duration-300`} // Improved thumbnail highlight
               key={`${id}-${i}`}
               onClick={() => handleClick(i)}
@@ -54,7 +54,7 @@ const ProductGallery = ({ productImages }: ProductGalleryProps) => {
                 alt={`صورة مصغرة للمنتج ${i + 1}`}
                 fill
                 sizes="10vw"
-                className="object-cover rounded-xl transition-opacity duration-300"
+                className="object-cover rounded-xl transition-opacity duration-300 p-[3px]"
               />
             </div>
           ))}

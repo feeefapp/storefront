@@ -3,6 +3,7 @@ import {
   CartService,
   DeliveryStatus,
   OrderEntity,
+  OrderItem,
   OrderStatus,
   PaymentStatus,
   ProductEntity,
@@ -45,12 +46,6 @@ const OrderForm = ({
 
   // pick the cities from the selected state by the index
   const [citiesList, setCitiesList] = useState<string[]>(cities[0]);
-
-  const [item, setItem] = useState<LocalOrderItem>({
-    product: product,
-    variants: [],
-    quantity: 1,
-  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,11 +91,17 @@ const OrderForm = ({
   /////////////////////////// new
   // CartItem
   const [currentItem, setCurrentItem] = useState(ff.cart.getCurrentItem());
+  const [shippingAddress, setShippingAddress] = useState(ff.cart.getShippingAddress());
+  const [shippingMethod, setShippingMethod] = useState(ff.cart.getShippingMethod());
+  const [items, setItems] = useState(ff.cart.getAll());
 
 
   useEffect(() => {
     var fn = (cart: CartService) => {
       setCurrentItem(cart.getCurrentItem());
+      setShippingAddress(cart.getShippingAddress());
+      setShippingMethod(cart.getShippingMethod());
+      setItems(cart.getAll());
     }
     ff.cart.addListener(fn);
 
@@ -139,8 +140,7 @@ const OrderForm = ({
               placeholder="الاسم الكامل"
               value={ff.cart.getShippingAddress().name ?? ""}
               onChange={(e) =>
-                ff.cart.setShippingAddress({
-                  ...ff.cart.getShippingAddress(),
+                ff.cart.updateShippingAddress({
                   name: e.target.value,
                 })
               }
@@ -162,8 +162,7 @@ const OrderForm = ({
               placeholder="رقم الهاتف"
               value={ff.cart.getShippingAddress().phone ?? ""}
               onChange={(e) =>
-                ff.cart.setShippingAddress({
-                  ...ff.cart.getShippingAddress(),
+                ff.cart.updateShippingAddress({
                   phone: e.target.value,
                 })
               }
@@ -185,9 +184,7 @@ const OrderForm = ({
               name="state"
               value={ff.cart.getShippingAddress().state || "الولاية"}
               onChange={(e) => {
-                setCitiesList(cities[Number.parseInt(e.target.value)-1]);
-                ff.cart.setShippingAddress({
-                  ...ff.cart.getShippingAddress(),
+                ff.cart.updateShippingAddress({
                   state: e.target.value,
                 })
               }}
@@ -217,8 +214,7 @@ const OrderForm = ({
               name="city"
               value={ff.cart.getShippingAddress().city || "البلدية"}
               onChange={(e) =>
-                ff.cart.setShippingAddress({
-                  ...ff.cart.getShippingAddress(),
+                ff.cart.updateShippingAddress({
                   city: e.target.value,
                 })
               }
@@ -241,47 +237,37 @@ const OrderForm = ({
         <div className="product-color">
           {product?.variant && (
             <div className="gb p-4 rounded-xl">
-              <h2 className="text-xl font-semibold">الخيارات المتوفرة</h2>
-              <div className="h-2"></div>
               {/* variant groups */}
               <RenderVariantGroup
                 variantGroup={product!.variant!}
-                path={item.variants}
+                path={currentItem?.variant?.split("/") || []}
                 onPathChange={(path) => {
-                  if (item.variants.join() == path.join()) {
-                    // delete last variant
-                    path.pop();
-                  }
-                  item.variants = path;
-
-                  // cart.updateVariantPath(product.id, path.join("/"));
-
-                  return setItem({ ...item });
+                  ff.cart.updateCurrentItem({
+                    variant: path.join("/"),
+                  });
                 }}
                 onSelect={(variant) => {
-                  // console.log(variant!.value)
+                  // if (variant?.type == VariantOptionType.image) {
+                  //   const mediaIndex = product?.media.findIndex(
+                  //     (media) => media == variant!.value
+                  //   );
 
-                  if (variant?.type == VariantOptionType.image) {
-                    const mediaIndex = product?.media.findIndex(
-                      (media) => media == variant!.value
-                    );
+                  //   const el = document.getElementById(
+                  //     `slide-${mediaIndex! + 1}`
+                  //   );
+                  //   el?.scrollIntoView({
+                  //     behavior: "smooth",
+                  //     block: "center",
+                  //     inline: "center",
+                  //   });
 
-                    const el = document.getElementById(
-                      `slide-${mediaIndex! + 1}`
-                    );
-                    el?.scrollIntoView({
-                      behavior: "smooth",
-                      block: "center",
-                      inline: "center",
-                    });
+                  //   // setSelectedMediaIndex(mediaIndex!);
 
-                    // setSelectedMediaIndex(mediaIndex!);
-
-                    // if (!import.meta.env.SSR) {
-                    //     // href={`#slide-${index + 1}`}
-                    //     window.history.pushState({}, "", `#slide-${mediaIndex}`);
-                    // }
-                  }
+                  //   // if (!import.meta.env.SSR) {
+                  //   //     // href={`#slide-${index + 1}`}
+                  //   //     window.history.pushState({}, "", `#slide-${mediaIndex}`);
+                  //   // }
+                  // }
 
                   // ViewContent
                   // track("ViewContent", {
@@ -292,31 +278,35 @@ const OrderForm = ({
                   //   value: 55 ,
                   //   currency: "DZD",
                   // });
+
+                  if (variant?.type == VariantOptionType.image) {
+                    // 
+                  }
                 }}
               />
             </div>
           )}
           {/* name, phone, country|state */}
-          <div className="h-4"></div>
           <div id="order-form" className="gb rounded-xl">
             <div className="p-4">
-              <div className="h-2"></div>
               <div
                 // ref={sendOrderButtonRef}
                 className="pulse rounded-lg flex flex-col md:flex-row justify-between items-center"
               >
                 {/* <SendOrderButton id="fixed" /> */}
               </div>
-              <div className="h-2"></div>
               <div className="flex items-center justify-center">
                 <div className="text-gray-600">الكمية</div>
                 <div className="flex-grow"></div>
                 <div className="flex items-center bg-gray-200 text-gray-700 justify-center border-2 rounded-lg overflow-hidden">
                   <button
                     aria-label="تقليل الكمية"
-                    onClick={() => {                      
-                      ff.cart.setCurrentItem({
-                        ...ff.cart.getCurrentItem()!,
+                    onClick={() => {
+                      if (ff.cart.getCurrentItem()!.quantity == 1) {
+                        alert("أقل كمية يمكن طلبها هي 1");
+                        return;
+                      }
+                      ff.cart.updateCurrentItem({
                         quantity: ff.cart.getCurrentItem()!.quantity-1,
                       })
                     }}
@@ -330,8 +320,7 @@ const OrderForm = ({
                     type="button"
                     aria-label="زيادة الكمية"
                     onClick={() => {
-                      ff.cart.setCurrentItem({
-                        ...ff.cart.getCurrentItem()!,
+                      ff.cart.updateCurrentItem({
                         quantity: ff.cart.getCurrentItem()!.quantity+1,
                       })
                     }}
@@ -342,34 +331,30 @@ const OrderForm = ({
                 </div>
                 {/* add to cart */}
                 <div className="w-2"></div>
-                {/* {!cart.canAddProduct(product) ? null : !cart.hasProduct( */}
-                {/* product.id */}
-                {/* ) ? ( */}
-                <button
+                {
+                  ff.cart.has(product.id) ?
+                  <button
+                  type="button"
+                  aria-label="حذف من السلة"
+                  onClick={() => {
+                    ff.cart.remove(product.id);
+                  }}
+                  className="px-3 py-1 rounded-lg border-2 border-red-500 text-red-500"
+                  >
+                  حذف من السلة
+                </button>
+                :
+                  <button
                   type="button"
                   aria-label="إضافة الى السلة"
                   onClick={() => {
-                    // cart.add({
-                    //   quantity: item.quantity,
-                    //   price: getPriceAfterDiscount(),
-                    //   variantPath: item.variants.join("/"),
-                    //   product: product,
-                    // });
-                    // // update the ui
-                    setItem({ ...item });
+                    ff.cart.add(ff.cart.getCurrentItem()!);
                   }}
-                  disabled={
-                    // !cart.canAddProduct(product) ||
-                    // cart.hasProduct(product.id)
-                    false
-                  }
                   className="px-3 py-1 rounded-lg border-2 border-primary text-primary"
-                >
+                  >
                   إضافة إلى السلة
                 </button>
-                {/* ) : ( */}
-
-                {/* )} */}
+                }
               </div>
             </div>
           </div>
@@ -382,9 +367,6 @@ const OrderForm = ({
         {/* divider */}
         <div className="flex items-center justify-center">
           <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div>
-          {/* 
-          <div className="text-gray-600 mx-4">ملخص الطلب</div>
-          <div className="h-[1px] bg-gray-200 dark:bg-gray-700 flex-grow"></div> */}
           <OrderSummary
             items={[
               {

@@ -1,6 +1,6 @@
 "use server";
 import { fetchProducts, fetchStore } from "./utils/actions";
-import { ProductEntity, StoreEntity } from "feeef";
+import { convertDartColorToCssNumber, cssColorToHslString, ProductEntity, StoreEntity } from "feeef";
 
 import ProductSection from "./components/productsSection";
 import Navbar from "./components/navbar";
@@ -27,8 +27,14 @@ export default async function Home() {
   }
   const { data: products }: { data: ProductEntity[] } = productsResponse;
 
+  const style = {
+    "--primary": cssColorToHslString(convertDartColorToCssNumber(store.decoration!.primary)),
+    "--primary-foreground": cssColorToHslString(convertDartColorToCssNumber(store.decoration!.onPrimary!)),
+  } as React.CSSProperties;
+
   return (
-    <>
+    // --primary: from store.primaryColor
+    <div className="inside" style={style}>
       <Navbar store={store} />
 
       <div className="flex flex-col min-h-screen px-0 md:px-14">
@@ -53,6 +59,6 @@ export default async function Home() {
         </div>
       </div>
       <Footer store={store} />
-    </>
+    </div>
   );
 }
